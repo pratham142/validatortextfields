@@ -1,0 +1,18 @@
+List<dynamic> articles = [];
+    Future<List<Map<String, dynamic>>> fetchNews() async {
+      final String apiKey = '92395384d62042c1905275a2abf4be9f';
+      final String apiUrl =
+          'https://newsapi.org/v2/top-headlines?country=us&apiKey=$apiKey';
+
+      final response = await https.get(Uri.parse(apiUrl));
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> jsonData = json.decode(response.body);
+        articles = jsonData['articles'];
+        print(articles);
+
+        return articles.cast<Map<String, dynamic>>();
+      } else {
+        throw Exception('Failed to load news');
+      }
+    }
